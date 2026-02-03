@@ -12,6 +12,9 @@ import { FormDynamicComponent } from './form-dynamic/form-dynamic.component';
   imports: [
     CommonModule,
     FormRoutingModule
+  ],
+  exports: [
+    FormDynamicComponent
   ]
 })
 export class FormModule { }

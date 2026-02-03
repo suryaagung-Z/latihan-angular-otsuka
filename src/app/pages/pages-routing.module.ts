@@ -29,7 +29,8 @@ const routes: Routes = [
     loadChildren: () => import('./todos/todos.module').then(m => m.TodosModule)
   },
   {
-    path: '', loadChildren: () => import('./template/dashboards/dashboards.module').then(m => m.DashboardsModule)
+    path: '',
+    loadChildren: () => import('./template/dashboards/dashboards.module').then(m => m.DashboardsModule)
   },
 
 

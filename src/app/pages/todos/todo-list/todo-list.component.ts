@@ -87,7 +87,7 @@ export class TodoListComponent {
         Swal.fire('Sukses', 'Todo berhasil diperbarui', 'success');
         this.modalClose();
         this.ngOnInit();
-      }else{
+      } else {
         Swal.fire('Error', 'Gagal memperbarui todo', 'error');
       }
     });
@@ -150,5 +150,9 @@ export class TodoListComponent {
         file: input.files[0]
       });
     }
+  }
+
+  onNotify(message: string){
+    Swal.fire('Notification from Child', message, 'info');
   }
 }
