@@ -1,0 +1,213 @@
+<div class="card">
+    <div [align]="'right'" style="margin-bottom: 20px !important">
+        <button class="btn btn-success m-2" (click)="addModalOpen()">
+            Add Todo
+        </button>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Judul</th>
+                <th scope="col">Status</th>
+                <th scope="col">Prioritas</th>
+                <th scope="col">Tanggal Tenggat</th>
+                <th scope="col">Dokumen</th>
+                <th scope="col">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let todo of todoList; let i=index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.status }}</td>
+                <td>{{ todo.priority }}</td>
+                <td>{{ todo.due_date | date: 'short' }}</td>
+                <td>
+                    <a href="{{ environment.fileUrl }}/{{ todo.file }}" class="text-decoration-underline" target="_blank">open file</a>
+                </td>
+                <td>
+                    <button class="btn btn-primary mr-2" (click)="editModalOpen(todo)">
+                        <i class="ri-edit-box-line"></i>
+                    </button>
+                    <button class="btn btn-danger" (click)="onDelete(todo.id)">
+                        <i class="ri-delete-bin-line"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<ng-template #addModal let-modal>
+    <div style="padding: 20px !important">
+        <h5 class="mb-3">Add Todo</h5>
+
+        <form [formGroup]="todoFormAdd">
+            <input type="hidden" name="user_id" formControlName="user_id" />
+            <input type="hidden" name="category_id" formControlName="category_id" />
+            <!-- Title -->
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" formControlName="title" placeholder="Enter todo title" />
+                <div *ngIf="
+                    todoFormAdd.get('title')?.invalid &&
+                    (todoFormAdd.get('title')?.touched || todoFormAdd.get('title')?.dirty)" 
+                    class="text-danger">
+                    Title is required.
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" rows="3" formControlName="description"
+                    placeholder="Enter description"></textarea>
+            </div>
+
+            <!-- Status -->
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select class="form-control" formControlName="status">
+                    <option value="">Select status</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">Progress</option>
+                    <option value="done">Done</option>
+                </select>
+                <div *ngIf="
+                    todoFormAdd.get('status')?.invalid &&
+                    (todoFormAdd.get('status')?.touched || todoFormAdd.get('status')?.dirty)"
+                    class="text-danger">
+                    Status is required.
+                </div>
+            </div>
+
+            <!-- Priority -->
+            <div class="mb-3">
+                <label class="form-label">Priority</label>
+                <select class="form-control" formControlName="priority">
+                    <option value="">Select priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <div *ngIf="
+                    todoFormAdd.get('priority')?.invalid &&
+                    (todoFormAdd.get('priority')?.touched || todoFormAdd.get('priority')?.dirty)"
+                    class="text-danger">
+                    Priority is required.
+                </div>
+            </div>
+
+            <!-- Due Date -->
+            <div class="mb-3">
+                <label class="form-label">Due Date</label>
+                <input type="date" class="form-control" formControlName="due_date" />
+                <div *ngIf="
+                    todoFormAdd.get('due_date')?.invalid &&
+                    (todoFormAdd.get('due_date')?.touched || todoFormAdd.get('due_date')?.dirty)"
+                    class="text-danger">
+                    Due date is required.
+                </div>
+            </div>
+
+            <!-- File -->
+            <!-- <div class="mb-3">
+                <label class="form-label">Document</label>
+                <input type="file" class="form-control" (change)="onFileChange($event)" />
+            </div> -->
+        </form>
+
+        <div [align]="'left'">
+            <button class="btn btn-secondary me-2" (click)="modal.dismiss()">
+                Close
+            </button>
+            <button class="btn btn-success" [disabled]="this.todoFormAdd.invalid" (click)="onSubmit()">
+                Submit
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #editModal let-modal>
+    <div style="padding: 20px !important">
+        <h5 class="mb-3">Edit Todo</h5>
+
+        <form [formGroup]="todoFormEdit">
+            <input type="hidden" name="id" formControlName="id" />
+            <input type="hidden" name="user_id" formControlName="user_id" />
+            <input type="hidden" name="category_id" formControlName="category_id" />
+            <!-- Title -->
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-control" formControlName="title" placeholder="Enter todo title" />
+                <div *ngIf="
+                    todoFormEdit.get('title')?.invalid &&
+                    (todoFormEdit.get('title')?.touched || todoFormEdit.get('title')?.dirty)" 
+                    class="text-danger">
+                    Title is required.
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" rows="3" formControlName="description"
+                    placeholder="Enter description"></textarea>
+            </div>
+
+            <!-- Status -->
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select class="form-control" formControlName="status">
+                    <option value="">Select status</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">Progress</option>
+                    <option value="done">Done</option>
+                </select>
+                <div *ngIf="
+                    todoFormEdit.get('status')?.invalid &&
+                    (todoFormEdit.get('status')?.touched || todoFormEdit.get('status')?.dirty)"
+                    class="text-danger">
+                    Status is required.
+                </div>
+            </div>
+
+            <!-- Priority -->
+            <div class="mb-3">
+                <label class="form-label">Priority</label>
+                <select class="form-control" formControlName="priority">
+                    <option value="">Select priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <div *ngIf="
+                    todoFormEdit.get('priority')?.invalid &&
+                    (todoFormEdit.get('priority')?.touched || todoFormEdit.get('priority')?.dirty)"
+                    class="text-danger">
+                    Priority is required.
+                </div>
+            </div>
+            <!-- Due Date -->
+            <div class="mb-3">
+                <label class="form-label">Due Date</label>
+                <input type="date" class="form-control" formControlName="due_date" />
+                <div *ngIf="
+                    todoFormEdit.get('due_date')?.invalid &&
+                    (todoFormEdit.get('due_date')?.touched || todoFormEdit.get('due_date')?.dirty)"
+                    class="text-danger">
+                    Due date is required.
+                </div>
+            </div>
+        </form>
+        <div [align]="'left'">
+            <button class="btn btn-secondary me-2" (click)="modal.dismiss()">
+                Close
+            </button>
+            <button class="btn btn-success" [disabled]="this.todoFormEdit.invalid" (click)="onEdit()">
+                Submit
+            </button>
+        </div>
+    </div>
+</ng-template>

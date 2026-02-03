@@ -1,0 +1,19 @@
+<div style="padding: 20px !important;">
+    <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+            <label for="roleName" class="form-label">Role Name</label>
+            <input type="text" id="roleName" class="form-control" formControlName="roleName" placeholder="Enter role name">
+            <div *ngIf="roleForm.get('roleName')?.invalid && (roleForm.get('roleName')?.touched || roleForm.get('roleName')?.dirty)" class="text-danger">
+                Role Name is required.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="roleDescription" class="form-label">Role Description</label>
+            <textarea id="roleDescription" class="form-control" formControlName="roleDescription" placeholder="Enter role description"></textarea>
+            <div *ngIf="roleForm.get('roleDescription')?.invalid && (roleForm.get('roleDescription')?.touched || roleForm.get('roleDescription')?.dirty)" class="text-danger">
+                Role Description is required.
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="roleForm.invalid">Submit</button>
+    </form>
+</div>

@@ -1,0 +1,95 @@
+<div style="padding: 20px">
+  <div style="display: flex; flex-direction: column">
+    <h2>Master Category</h2>
+    <div [align]="'right'" style="margin-bottom: 10px; margin-top: 10px">
+      <button type="button" class="btn btn-primary" (click)="onAddModalOpen()">
+        Add Data
+      </button>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Nomor</th>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataList; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.id }}</td>
+          <td>{{ item.username }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="onEditModalOpen(item)"
+            >
+              Edit
+            </button>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="onDelete(item.id)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #addModal let-modal>
+  <div style="padding: 20px !important">
+    <h4 style="margin-bottom: 20px !important">Add New Category</h4>
+    <form [formGroup]="addForm" >
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <input
+          type="text"
+          id="category"
+          class="form-control"
+          formControlName="category"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="addForm.invalid"
+        (click)="onSubmit()"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #editModal let-modal> 
+    <div style="padding: 20px !important">
+    <h4 style="margin-bottom: 20px !important">Edit New Category</h4>
+    <form [formGroup]="editForm" >
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <input
+          type="text"
+          id="category"
+          class="form-control"
+          formControlName="category"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="editForm.invalid"
+        (click)="onEdit()"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</ng-template>
